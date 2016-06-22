@@ -1,0 +1,2 @@
+# ClipsMonitor
+AssistantLiving Java GUI

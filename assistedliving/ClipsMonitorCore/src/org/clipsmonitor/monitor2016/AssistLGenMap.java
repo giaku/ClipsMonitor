@@ -60,7 +60,7 @@ public class AssistLGenMap extends MonitorGenMap {
         this.direction = "north";
         this.maxduration = 300;
         this.mode = "scene";
-        this.personName = "person";
+        this.personName = "PersonStanding";
         this.defaulagentcondition = "gate+agent_north_unloaded";
         this.defaultagentposition = new int[2];
         this.defaultagentposition[0] = 3;

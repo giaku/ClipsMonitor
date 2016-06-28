@@ -6,13 +6,13 @@
             <file>file:/E:/NetBeansProjects/ClipsMonitor/assistedliving/ClipsMonitorCore/src/org/clipsmonitor/core/MonitorCore.java</file>
             <file>file:/E:/NetBeansProjects/ClipsMonitor/assistedliving/ClipsMonitorCore/src/org/clipsmonitor/core/MonitorModel.java</file>
             <file>file:/E:/NetBeansProjects/ClipsMonitor/assistedliving/ClipsMonitorCore/src/org/clipsmonitor/clips/ClipsCore.java</file>
-            <file>file:/E:/NetBeansProjects/ClipsMonitor/assistedliving/ClipsMonitorCore/src/org/clipsmonitor/core/MonitorGenMap.java</file>
+            <file>file:/E:/NetBeansProjects/ClipsMonitor/assistedliving/ClipsMonitorCore/src/org/clipsmonitor/core/MonitorImages.java</file>
             <file>file:/E:/NetBeansProjects/ClipsMonitor/assistedliving/ClipsMonitorCore/src/org/clipsmonitor/core/MonitorMap.java</file>
-            <file>file:/E:/NetBeansProjects/ClipsMonitor/assistedliving/ClipsMonitorCore/src/org/clipsmonitor/gui/ControlsTopComponent.java</file>
-            <file>file:/E:/NetBeansProjects/ClipsMonitor/assistedliving/ClipsMonitorCore/src/org/clipsmonitor/gui/EnvMapTopComponent.java</file>
+            <file>file:/E:/NetBeansProjects/ClipsMonitor/assistedliving/ClipsMonitorCore/src/org/clipsmonitor/monitor2016/AssistLEnvMap.java</file>
+            <file>file:/E:/NetBeansProjects/ClipsMonitor/assistedliving/ClipsMonitorCore/src/org/clipsmonitor/clips/RouterDialog.java</file>
+            <file>file:/E:/NetBeansProjects/ClipsMonitor/assistedliving/ClipsMonitorCore/src/org/clipsmonitor/monitor2016/AssistLGenMap.java</file>
             <file>file:/E:/NetBeansProjects/ClipsMonitor/assistedliving/ClipsMonitorCore/src/org/clipsmonitor/clips/ClipsConsole.java</file>
-            <file>file:/E:/NetBeansProjects/ClipsMonitor/assistedliving/ClipsMonitorCore/src/org/clipsmonitor/monitor2016/AssistLAgentMap.java</file>
-            <file>file:/E:/NetBeansProjects/ClipsMonitor/assistedliving/ClipsMonitorCore/src/org/clipsmonitor/core/ProjectDirectory.java</file>
+            <file>file:/E:/NetBeansProjects/ClipsMonitor/assistedliving/ClipsMonitorCore/src/org/clipsmonitor/monitor2016/AssistLFacts.java</file>
             <file>file:/E:/NetBeansProjects/ClipsMonitor/assistedliving/ClipsMonitorCore/src/org/clipsmonitor/monitor2016/AssistLModel.java</file>
             <file>file:/E:/NetBeansProjects/ClipsMonitor/assistedliving/ClipsMonitorCore/src/org/clipsmonitor/gui/MapTopComponent.java</file>
         </group>

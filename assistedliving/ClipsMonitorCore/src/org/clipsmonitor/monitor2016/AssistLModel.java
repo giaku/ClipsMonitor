@@ -264,13 +264,13 @@ public class AssistLModel extends MonitorModel {
     private void updateStaff() throws CLIPSError{
         console.debug("Acquisizione posizione degli altri agenti per EnvMap...");
         String[][] persons = core.findAllFacts("ENV", AssistLFacts.StaffStatus.factName(), "TRUE", AssistLFacts.StaffStatus.slotsArray());
-        personPositions.clear();
+        staffPositions.clear();
         if (persons != null) {
             for (int i = 0; i < persons.length; i++) {
                 if(persons[i][0] != null){
                     int r = new Integer(persons[i][AssistLFacts.StaffStatus.POSR.index()]);
                     int c = new Integer(persons[i][AssistLFacts.StaffStatus.POSC.index()]);
-                    personPositions.add(new int[]{r, c});
+                    staffPositions.add(new int[]{r, c});
                 }
             }
         }

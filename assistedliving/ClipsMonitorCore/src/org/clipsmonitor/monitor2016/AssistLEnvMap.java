@@ -63,9 +63,10 @@ public class AssistLEnvMap extends MonitorMap implements Observer {
     @Override
     protected void refreshMap() throws CLIPSError {
         updateCells();
-        //updatePersonStatus();
+        updatePersonStatus();
         updateStaffStatus();
         updateAgentStatus();
+        updateTableStatus();
         /*
         if(model.getShowGoalEnabled()){
             updateGoal();
@@ -104,13 +105,25 @@ public class AssistLEnvMap extends MonitorMap implements Observer {
         int c = model.getColumn() - 1;
         map[r][c] = map[r][c] + "+agent_" + model.getDirection();
         ArrayList<String> tmp = model.getContent();
-        if(!tmp.isEmpty()) {
-            if(tmp.contains("dietetic") || tmp.contains("dessert")){
-                map[r][c]+= "+dish"; 
-            }
-            if(tmp.contains("pills")) {
-                 map[r][c]+= "+pill";
-            }   
+        if(tmp.size()>0 && tmp.get(0)!=null) {
+            if(tmp.get(0).equals("dietetic"))
+                map[r][c]+= "+dietetic1";
+            if(tmp.get(0).equals("normal"))
+                map[r][c]+= "+normal1";
+            if(tmp.get(0).equals("pills"))
+                map[r][c]+= "+pill1";
+            if(tmp.get(0).equals("dessert"))
+                map[r][c]+= "+dessert1"; 
+        }
+        if(tmp.size()>1 && tmp.get(1)!=null) {
+            if(tmp.get(0).equals("dietetic"))
+                map[r][c]+= "+dietetic2";
+            if(tmp.get(0).equals("normal"))
+                map[r][c]+= "+normal2";
+            if(tmp.get(0).equals("pills"))
+                map[r][c]+= "+pill2";
+            if(tmp.get(0).equals("dessert"))
+                map[r][c]+= "+dessert2"; 
         }
         if(model.getWaste()) {
             map[r][c] += "+bin";
@@ -127,7 +140,7 @@ public class AssistLEnvMap extends MonitorMap implements Observer {
         for (int[] person : personPositions) {
             int r = person[0] - 1;
             int c = person[1] - 1;
-            map[r][c] += "+person";
+            map[r][c] += "+PersonStanding";
         }
     }
     
@@ -137,7 +150,7 @@ public class AssistLEnvMap extends MonitorMap implements Observer {
         for (int[] person : personPositions) {
             int r = person[0] - 1;
             int c = person[1] - 1;
-            map[r][c] += "+Staff";
+            map[r][c] = "Empty+staff";
         }
     }
     
@@ -149,8 +162,9 @@ public class AssistLEnvMap extends MonitorMap implements Observer {
             int r = new Integer(fact[AssistLFacts.TableStatus.POSR.index()]) - 1;
             boolean clean = fact[AssistLFacts.TableStatus.CLEAN.index()].compareTo("no") == 0;
             if(clean){
-                map[r][c] += "+dirty_dish";
+                map[r][c] += "+Table+dirty_dish";
             }
+            else {map[r][c] += "+Table";}
         }
     }
     

@@ -137,7 +137,6 @@ public class MonitorImages {
             File img_dir = new File(path + File.separator + "img");
 
             File [] imgs = img_dir.listFiles();
-
             for(File img : imgs)
             {
                 if(img.isFile()){ // escludo la directory dei colori

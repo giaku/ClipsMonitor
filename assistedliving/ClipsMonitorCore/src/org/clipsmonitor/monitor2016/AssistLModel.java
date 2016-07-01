@@ -197,7 +197,7 @@ public class AssistLModel extends MonitorModel {
         // Update the planning nodes
         //  updatePNodes();
         // Update the other agents
-        updatePeople();
+        //updatePeople();
         updateStaff();
         //updateKPeople();
         //updateKStaff();
@@ -279,13 +279,17 @@ public class AssistLModel extends MonitorModel {
     /*
     private void updateKPeople() throws CLIPSError{
         console.debug("Acquisizione posizione degli altri agenti per agentMap...");
-        String[][] persons = core.findAllFacts("AGENT", AssistLFacts.KPerson.factName(), "= ?f:step " + this.step, AssistLFacts.KPerson.slotsArray());
+        String[][] persons = core.findAllFacts("AGENT", "perc-vision", "= ?f:step " + this.step, new String[]{"perc1","perc2","perc3",
+                                                                                                              "perc4","perc5","perc6",
+                                                                                                              "perc7","perc8","perc9"});
         kpersonPositions.clear();
         if (persons != null) {
             for (int i = 0; i < persons.length; i++) {
                 if(persons[i][0] != null){
                     int r = new Integer(persons[i][AssistLFacts.KPerson.POSR.index()]);
                     int c = new Integer(persons[i][AssistLFacts.KPerson.POSC.index()]);
+                    if(direction.equals("north"))
+                        
                     kpersonPositions.add(new int[]{r, c});
                 }
             }

@@ -86,9 +86,9 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="stepButton" alignment="0" pref="84" max="32767" attributes="0"/>
-                              <Component id="runButton" alignment="0" pref="84" max="32767" attributes="0"/>
-                              <Component id="runOneButton" alignment="0" pref="84" max="32767" attributes="0"/>
+                              <Component id="stepButton" alignment="0" max="32767" attributes="0"/>
+                              <Component id="runButton" alignment="0" max="32767" attributes="0"/>
+                              <Component id="runOneButton" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">

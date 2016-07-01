@@ -10,6 +10,8 @@ public class AssistLAgentMap extends MonitorMap implements Observer {
     private final String DISCOVERED_COLOR = "rgba(0,255,0,0.3)";
     private final String CHECKED_COLOR = "rgba(255,255,0,0.3)";
     private final String CLEAR_COLOR = "rgba(182,20,91,0.3)";
+    private int parkingr = 0;
+    private int parkingc = 0;
     
     public AssistLAgentMap(){
         super();
@@ -44,6 +46,11 @@ public class AssistLAgentMap extends MonitorMap implements Observer {
         for (int i = 0; i < mp.length; i++) {
             int r = new Integer(mp[i][AssistLFacts.PriorCell.POSR.index()]);
             int c = new Integer(mp[i][AssistLFacts.PriorCell.POSC.index()]);
+            String contains = mp[i][AssistLFacts.PriorCell.CONTAINS.index()];
+            
+            if(contains.equals("Parking")) {
+                parkingr=r-1; parkingc=c-1;
+            }
             if (r > maxr) {maxr = r;}
             if (c > maxc) {maxc = c;}
         }
@@ -62,10 +69,11 @@ public class AssistLAgentMap extends MonitorMap implements Observer {
      */
     @Override
     protected void refreshMap() throws CLIPSError {
-        updateCells();
-        updatePersonStatus();
-        updateStaffStatus();
-        updateAgentStatus();
+        if(model.getStep()>1) {
+            updateTableStatus();
+            updateCells();
+            updateAgentStatus();
+        }
         /*
         if(model.getShowGoalEnabled()){
             updateGoal();
@@ -77,64 +85,68 @@ public class AssistLAgentMap extends MonitorMap implements Observer {
     private void updateCells() throws CLIPSError {
         console.debug("Aggiornamento mappa reale in corso...");
 
-        String[][] cellFacts = core.findAllFacts("ENV", AssistLFacts.Cell.factName(), "TRUE", AssistLFacts.Cell.slotsArray());
-
-        for (String[] fact : cellFacts) {
-            // Nei fatti si conta partendo da 1, nella matrice no, quindi sottraiamo 1.
-            int c = new Integer(fact[AssistLFacts.Cell.POSC.index()]) - 1;
-            int r = new Integer(fact[AssistLFacts.Cell.POSR.index()]) - 1;
-            String contains = fact[AssistLFacts.Cell.CONTAINS.index()];
-            String previous = fact[AssistLFacts.Cell.PREVIOUS.index()];
-            
-            //caso di default preleviamo il valore dello slot contains e lo applichiamo alla mappa
-            map[r][c] = contains;  
-            
-            if(contains.equals("Robot")){
-                map[r][c] = previous;
+        String[][] cellFacts = core.findAllFacts("AGENT", AssistLFacts.KCell.factName(), "TRUE", AssistLFacts.KCell.slotsArray());
+        
+        if(cellFacts != null) {
+            for (String[] fact : cellFacts) {
+                // Nei fatti si conta partendo da 1, nella matrice no, quindi sottraiamo 1.
+                int c = new Integer(fact[AssistLFacts.KCell.POSC.index()]) - 1;
+                int r = new Integer(fact[AssistLFacts.KCell.POSR.index()]) - 1;
+                String contains = fact[AssistLFacts.KCell.CONTAINS.index()];
+                
+                //caso di default preleviamo il valore dello slot contains e lo applichiamo alla mappa
+                
+                if(contains.equals("Robot")) {
+                    map[r][c] = "Empty";
+                    if(r == parkingr && c == parkingc)
+                        map[r][c] += "+Parking";
+                }
+                else if(contains.equals("PersonStanding")) {
+                    map[r][c] = "Empty+unknown_person";
+                }
+                else {
+                    map[r][c] = contains.equals("Empty") ? "Empty" : "Empty+"+contains;
+                }
+                
+                if(!(Math.abs((model.getKRow()-r-1))<=1 && Math.abs((model.getKColumn()-c-1))<=1)) {
+                    map[r][c] += "+unknown";
+                }
             }
         }
     }
 
     public void updateAgentStatus() throws CLIPSError{
         console.debug("Acquisizione posizione dell'agente...");
-        int r = model.getRow() - 1;
-        int c = model.getColumn() - 1;
-        map[r][c] = map[r][c] + "+agent_" + model.getDirection();
-        ArrayList<String> tmp = model.getContent();
-        if(!tmp.isEmpty()) {
-            if(tmp.contains("dietetic") || tmp.contains("dessert")){
-                map[r][c]+= "+dish"; 
-            }
-            if(tmp.contains("pills")) {
-                 map[r][c]+= "+pill";
-            }   
+        int r = model.getKRow() - 1;
+        int c = model.getKColumn() - 1;
+        map[r][c] += "+agent_" + model.getKDirection();
+        ArrayList<String> tmp = model.getKContent();
+        if(tmp.size()>0 && tmp.get(0)!=null) {
+            if(tmp.get(0).equals("(dietetic)"))
+                map[r][c]+= "+dietetic1";
+            if(tmp.get(0).equals("(normal)"))
+                map[r][c]+= "+normal1";
+            if(tmp.get(0).matches("[(][Pp][0-9]+[)]"))
+                map[r][c]+= "+pill1";
+            if(tmp.get(0).equals("(dessert)"))
+                map[r][c]+= "+dessert1"; 
         }
-        if(model.getWaste()) {
+        if(tmp.size()>1 && tmp.get(1)!=null) {
+            if(tmp.get(0).equals("(dietetic)"))
+                map[r][c]+= "+dietetic2";
+            if(tmp.get(0).equals("(normal)"))
+                map[r][c]+= "+normal2";
+            if(tmp.get(0).matches("[(][Pp][0-9]+[)]"))
+                map[r][c]+= "+pill2";
+            if(tmp.get(0).equals("(dessert)"))
+                map[r][c]+= "+dessert2"; 
+        }
+        if(model.getKWaste()) {
             map[r][c] += "+bin";
         }
         if(model.getBumped()){
-          int [] offset = model.getOffset().get(model.getDirection());
+          int [] offset = model.getOffset().get(model.getKDirection());
           map[r + offset[0]][c + offset[1]] += "+bump";
-        }
-    }
-
-    public void updatePersonStatus() throws CLIPSError{
-        console.debug("Acquisizione posizione degli altri agenti...");
-        ArrayList<int[]> personPositions = model.getPersonPositions();
-        for (int[] person : personPositions) {
-            int r = person[0] - 1;
-            int c = person[1] - 1;
-            map[r][c] += "+person";
-        }
-    }
-    
-    public void updateStaffStatus() throws CLIPSError{
-        console.debug("Acquisizione posizione degli altri agenti...");
-        ArrayList<int[]> personPositions = model.getStaffPositions();
-        for (int[] person : personPositions) {
-            int r = person[0] - 1;
-            int c = person[1] - 1;
-            map[r][c] += "+staff";
         }
     }
     
@@ -146,12 +158,15 @@ public class AssistLAgentMap extends MonitorMap implements Observer {
             int r = new Integer(fact[AssistLFacts.TableStatus.POSR.index()]) - 1;
             boolean clean = fact[AssistLFacts.TableStatus.CLEAN.index()].compareTo("no") == 0;
             if(clean){
-                map[r][c] += "+dirty_dish";
+                map[r][c] += "+Table+dirty_dish";
             }
+            else {map[r][c] += "+Table";}
         }
     }
     
-    public void updateGoal()throws CLIPSError{}
+    public void updateGoal()throws CLIPSError {
+    
+    }
     
     public void updateGoalsToDo() throws CLIPSError{}
 }

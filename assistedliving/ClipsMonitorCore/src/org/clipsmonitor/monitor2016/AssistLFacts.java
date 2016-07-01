@@ -16,7 +16,8 @@ public final class AssistLFacts{
     public enum KCell implements Fact{
         POSR (0, "pos-r"),
         POSC (1, "pos-c"),
-        CONTAINS(2, "contains");
+        CONTAINS(2, "contains"),
+        OLD(3, "old");
 
         private static final String FACT_NAME = "K-cell";
         private final int index;
@@ -101,7 +102,8 @@ public final class AssistLFacts{
         PARAM1(1, "param1"),
         PARAM2(2, "param2"),
         PARAM3(3, "param3"),
-        PARAM4(4, "param4");
+        PARAM4(4, "param4"),
+        PROGRESS(5, "progress");
         
         private static final String FACT_NAME = "to-achieve";
         private final int index;
@@ -142,7 +144,9 @@ public final class AssistLFacts{
         VARIANTS(1, "variants"),
         ID(2, "id"),
         T_POSR(3, "t_pos-r"),
-        T_POSC(4, "t_pos-c");
+        T_POSC(4, "t_pos-c"),
+        STEP(5, "step"),
+        NEXT(6, "next");
         
         private static final String FACT_NAME = "task-serve";
         private final int index;
@@ -189,6 +193,43 @@ public final class AssistLFacts{
         private final String slot;
         
         TaskRespond(int index, String slot){
+            this.index = index;
+            this.slot = slot;
+        }
+        
+        @Override
+        public int index(){
+            return index;
+        }
+
+        @Override
+        public String slot(){
+            return slot;
+        }
+
+        public static String[] slotsArray() {
+            Fact[] fact = values();
+            String[] slots = new String[fact.length];
+            for (Fact slot : fact) {
+                slots[slot.index()] = slot.slot();
+            }
+            return slots;
+        }
+
+        public static String factName() {
+            return FACT_NAME;
+        }
+    }
+    
+    public enum TaskClean implements Fact {
+        T_POSR(1, "t_pos-r"),
+        T_POSC(2, "t_pos-c");
+        
+        private static final String FACT_NAME = "task-clean-table";
+        private final int index;
+        private final String slot;
+        
+        TaskClean(int index, String slot){
             this.index = index;
             this.slot = slot;
         }

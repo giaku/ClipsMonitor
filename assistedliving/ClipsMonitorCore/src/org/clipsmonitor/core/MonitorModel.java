@@ -375,6 +375,7 @@ public abstract class MonitorModel extends Observable implements Runnable {
                                       "(declare (salience 1000))"               +
                                       "?step-done <- (clips-monitor step-done)" +
                                       "?last <- (last-status (step ?i))"        +
+                                      "(not (update-K-cell ?))"                 +
                                         "=>"                                    +
                                       "(retract ?step-done)"                    +
                                       "(modify ?last (step (+ ?i 1)))"          +
@@ -388,6 +389,7 @@ public abstract class MonitorModel extends Observable implements Runnable {
                                         "  (last-status (step ?old-s))"           +
                                         "  (status (step ?act-s))"              +
                                         "  (test (or (> ?act-s ?old-s) (= ?old-s 0)))"            +
+                                        "  (not (update-K-cell ?))"                 +
                                         "  => "                                 +
                                         "  (retract ?step-started)"             +
                                         ")";

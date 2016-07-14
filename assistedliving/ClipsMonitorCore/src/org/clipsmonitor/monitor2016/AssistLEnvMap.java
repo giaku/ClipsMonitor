@@ -96,6 +96,9 @@ public class AssistLEnvMap extends MonitorMap implements Observer {
             if(contains.equals("Robot")){
                 map[r][c] = "Empty+"+previous;
             }
+            if(contains.equals("PersonSeated")){
+                map[r][c] = "Empty+Seat";
+            }
         }
     }
 

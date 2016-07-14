@@ -104,7 +104,10 @@ public class AssistLAgentMap extends MonitorMap implements Observer {
                 else if(contains.equals("PersonStanding")) {
                     map[r][c] = "Empty+unknown_person";
                 }
-                else {
+                else if(contains.equals("PersonSeated")) {
+                    map[r][c] = "Empty+Seat+unknown_person_seated";
+                }
+                else if(!contains.equals("Table")){
                     map[r][c] = contains.equals("Empty") ? "Empty" : "Empty+"+contains;
                 }
                 
@@ -156,11 +159,11 @@ public class AssistLAgentMap extends MonitorMap implements Observer {
             // Nei fatti si conta partendo da 1, nella matrice no, quindi sottraiamo 1.
             int c = new Integer(fact[AssistLFacts.TableStatus.POSC.index()]) - 1;
             int r = new Integer(fact[AssistLFacts.TableStatus.POSR.index()]) - 1;
-            boolean clean = fact[AssistLFacts.TableStatus.CLEAN.index()].compareTo("no") == 0;
+            boolean clean = fact[AssistLFacts.TableStatus.CLEAN.index()].equals("no");
             if(clean){
-                map[r][c] += "+Table+dirty_dish";
+                map[r][c] = "Empty+Table+dirty_dish";
             }
-            else {map[r][c] += "+Table";}
+            else {map[r][c] = "Empty+Table";}
         }
     }
     

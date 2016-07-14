@@ -197,7 +197,7 @@ public class AssistLModel extends MonitorModel {
         // Update the planning nodes
         //  updatePNodes();
         // Update the other agents
-        //updatePeople();
+        updatePeople();
         updateStaff();
         //updateKPeople();
         //updateKStaff();
@@ -303,6 +303,7 @@ public class AssistLModel extends MonitorModel {
       this.bumped= bump.length!=0 ? true: false;   
     }
 
+    @Override
     protected void updateStatus() throws CLIPSError{
         String[] status = core.findFact("MAIN", AssistLFacts.Status.factName(), "TRUE", AssistLFacts.Status.slotsArray());
         if (status!= null) {

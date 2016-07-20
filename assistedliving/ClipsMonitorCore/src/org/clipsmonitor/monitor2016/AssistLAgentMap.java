@@ -12,6 +12,7 @@ public class AssistLAgentMap extends MonitorMap implements Observer {
     private final String CLEAR_COLOR = "rgba(182,20,91,0.3)";
     private int parkingr = 0;
     private int parkingc = 0;
+    private boolean[][] oldTableStatus;
     
     public AssistLAgentMap(){
         super();
@@ -55,6 +56,7 @@ public class AssistLAgentMap extends MonitorMap implements Observer {
             if (c > maxc) {maxc = c;}
         }
         map = new String[maxr][maxc];//Matrice di max_n_righe x max_n_colonne
+        oldTableStatus = new boolean[maxr][maxc];
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 map[i][j] = UNKNOWN_COLOR;
@@ -160,10 +162,16 @@ public class AssistLAgentMap extends MonitorMap implements Observer {
             int c = new Integer(fact[AssistLFacts.TableStatus.POSC.index()]) - 1;
             int r = new Integer(fact[AssistLFacts.TableStatus.POSR.index()]) - 1;
             boolean clean = fact[AssistLFacts.TableStatus.CLEAN.index()].equals("no");
-            if(clean){
+            
+            if(oldTableStatus[r][c] && clean) {
                 map[r][c] = "Empty+Table+dirty_dish";
+            } else if(!oldTableStatus[r][c] && clean){
+                map[r][c] = "Empty+Table+meal";
+            } else {
+                map[r][c] = "Empty+Table";
             }
-            else {map[r][c] = "Empty+Table";}
+            
+            oldTableStatus[r][c] = clean;
         }
     }
     

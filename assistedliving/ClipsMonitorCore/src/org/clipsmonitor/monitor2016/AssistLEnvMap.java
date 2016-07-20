@@ -10,6 +10,7 @@ public class AssistLEnvMap extends MonitorMap implements Observer {
     private final String DISCOVERED_COLOR = "rgba(0,255,0,0.3)";
     private final String CHECKED_COLOR = "rgba(255,255,0,0.3)";
     private final String CLEAR_COLOR = "rgba(182,20,91,0.3)";
+    private boolean[][] oldTableStatus;
     
     public AssistLEnvMap(){
         super();
@@ -48,6 +49,7 @@ public class AssistLEnvMap extends MonitorMap implements Observer {
             if (c > maxc) {maxc = c;}
         }
         map = new String[maxr][maxc];//Matrice di max_n_righe x max_n_colonne
+        oldTableStatus = new boolean[maxr][maxc];
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 map[i][j] = UNKNOWN_COLOR;
@@ -164,10 +166,16 @@ public class AssistLEnvMap extends MonitorMap implements Observer {
             int c = new Integer(fact[AssistLFacts.TableStatus.POSC.index()]) - 1;
             int r = new Integer(fact[AssistLFacts.TableStatus.POSR.index()]) - 1;
             boolean clean = fact[AssistLFacts.TableStatus.CLEAN.index()].compareTo("no") == 0;
-            if(clean){
-                map[r][c] += "+Table+dirty_dish";
+            
+            if(oldTableStatus[r][c] && clean) {
+                map[r][c] = "Empty+Table+dirty_dish";
+            } else if(!oldTableStatus[r][c] && clean){
+                map[r][c] = "Empty+Table+meal";
+            } else {
+                map[r][c] = "Empty+Table";
             }
-            else {map[r][c] += "+Table";}
+            
+            oldTableStatus[r][c] = clean;
         }
     }
     

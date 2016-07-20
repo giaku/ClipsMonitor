@@ -109,23 +109,23 @@ public class AssistLEnvMap extends MonitorMap implements Observer {
         map[r][c] += "+agent_" + model.getDirection();
         ArrayList<String> tmp = model.getContent();
         if(tmp.size()>0 && tmp.get(0)!=null) {
-            if(tmp.get(0).equals("(dietetic)"))
+            if(tmp.get(0).contains("dietetic"))
                 map[r][c]+= "+dietetic1";
-            if(tmp.get(0).equals("(normal)"))
+            if(tmp.get(0).contains("normal"))
                 map[r][c]+= "+normal1";
-            if(tmp.get(0).matches("[(][Pp][0-9]+[)]"))
+            if(tmp.get(0).contains("P"))
                 map[r][c]+= "+pill1";
-            if(tmp.get(0).equals("(dessert)"))
+            if(tmp.get(0).contains("dessert"))
                 map[r][c]+= "+dessert1"; 
         }
         if(tmp.size()>1 && tmp.get(1)!=null) {
-            if(tmp.get(0).equals("(dietetic)"))
+            if(tmp.get(1).contains("dietetic"))
                 map[r][c]+= "+dietetic2";
-            if(tmp.get(0).equals("(normal)"))
+            if(tmp.get(1).contains("normal"))
                 map[r][c]+= "+normal2";
-            if(tmp.get(0).matches("[(][Pp][0-9]+[)]"))
+            if(tmp.get(1).contains("P"))
                 map[r][c]+= "+pill2";
-            if(tmp.get(0).equals("(dessert)"))
+            if(tmp.get(1).contains("dessert"))
                 map[r][c]+= "+dessert2"; 
         }
         if(model.getWaste()) {
